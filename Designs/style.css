@@ -1,0 +1,58 @@
+:root {
+  --background: #d3d7fc;
+  --primary: #252C6C;
+  --bs-border-color: var(--primary);
+  --light-primary: #323b92;
+}
+
+body {
+  background-color: var(--background);
+}
+
+h1,h2,h3,h4,h5,h6, .active{
+  color: var(--primary);
+}
+
+.form-control:focus {
+  color: var(--primary) !important;
+  box-shadow: none !important;
+}
+
+/* Remove increment & decrement button from input[type=number] box */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+input[type=text]{
+  background-color: var(--background) !important;
+}
+
+
+.btn-primary{
+  background-color: var(--primary) !important; 
+  color: white !important;
+  border-color: transparent !important;
+}
+
+.btn-primary:hover{
+  background-color: var(--light-primary) !important;
+}
+
+.border{
+  background-color: var(--background) !important;
+}
+
+#otp input[type=number] {
+  background-color: white !important;
+}
+
+#otp input:focus{
+  border-color: var(--light-primary) !important;
+}
