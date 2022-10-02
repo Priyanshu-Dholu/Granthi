@@ -1,218 +1,453 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Question</title>
+{% block title %}Home{% endblock %}
 
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-    <!-- Chart JS -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
-    <style>
-        .nav-pills .nav-link.active,
-        .nav-pills .show>.nav-link {
-            color: #191D23;
-            background-color: #CFD0DE;
-        }
-
-        .nav-pills .nav-link {
-            /* border-radius: var(--bs-nav-pills-border-radius); */
-            color: black;
-            --bs-nav-link-padding-x: 0.5rem !important;
-        }
-
-        /* svg {
-            color: #7c838c;
-        } */
-    </style>
-</head>
-
-<body style="background-color:#d3d7fc;">
-
-    <div class="container rounded mt-2 mb-2" style="background-color: #fff;">
+{% block body %}
+<div class="row">
+    <div class="col-6">
+        <!-- 1 Question report -->
         <div class="row">
-            <div class="col mt-3">
-                <!-- Question Title -->
-                <p>Question - 1</p>
-            </div>
-            <div class="col mt-1">
-                <div class="d-flex justify-content-end icons">
-                    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-
-                        <li class="nav-item m-1" role="presentation">
-                            <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill"
-                                data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home"
-                                aria-selected="true">
-                                <iconify-icon icon="ci:doughnut-chart" width="30"></iconify-icon>
-                            </button>
-                        </li>
-
-                        <li class="nav-item m-1" role="presentation">
-                            <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill"
-                                data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile"
-                                aria-selected="false">
-                                <!-- <iconify-icon icon="ant-design:bar-chart-outlined" width="30"></iconify-icon> -->
-                                <iconify-icon icon="bx:bar-chart-square" width="30"></iconify-icon>
-                            </button>
-                        </li>
-                    </ul>
+            <div class="container rounded mt-2 mb-2" style="background-color: #fff;">
+                <div class="row">
+                    <div class="col mt-3">
+                        <p>Question - 1</p>
+                    </div>
                 </div>
-            </div>
-        </div>
 
-        <div class="row" style="background-color: #e7e7ef;">
-            <div class="col mt-2">
-                <!-- Question -->
-                <p>How would you rate behaviour of the police officers?</p>
-            </div>
-        </div>
+                <div class="row" style="background-color: #e7e7ef;">
+                    <div class="col mt-2">
+                        <!-- Question -->
+                        <p>How would you rate behaviour of the police officers?</p>
+                    </div>
+                </div>
 
-        <div class="row">
-            <div class="col">
-                <div class="tab-content" id="pills-tabContent">
-
-                    <!-- Graph View -->
-                    <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
-                        aria-labelledby="pills-home-tab" tabindex="0">
+                <div class="row p-3">
+                    <div class="col">
                         <div class="d-flex justify-content-center">
-                            <canvas id="myChart" width="300" height="300"></canvas>
+                            <canvas id="q1d" width="300" height="300"></canvas>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Doughnut View -->
-                    <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab"
-                        tabindex="0">
-                        <div class="d-flex justify-content-center">
-                            <canvas id="myChart1" width="300" height="300"></canvas>
-                        </div>
+                <!-- Table -->
+                <div class="row border-top mt-2">
+                    <div class="col">
+                        <table id="tq1" class="table table-borderless">
+                            <thead>
+                                <tr class="text-center">
+                                    <th scope="col">Answer Choices</th>
+                                    <th scope="col">Counts</th>
+                                    <th scope="col">Percentage</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-center">
+                                <tr>
+                                    <td>Through a person known to a police officer</td>
+                                    <td>0</td>
+                                    <td>0%</td>
+                                </tr>
+                                <tr>
+                                    <td>With a neighbour/ local leader</td>
+                                    <td>0</td>
+                                    <td>0%</td>
+                                </tr>
+                                <tr>
+                                    <td>On your own</td>
+                                    <td>0</td>
+                                    <td>0%</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Table -->
-        <div class="row border-top mt-2">
-            <div class="col">
-                <table class="table table-borderless">
-                    <thead>
-                        <tr class="text-center">
-                            <th scope="col">Answer Choices</th>
-                            <th scope="col">Counts</th>
-                            <th scope="col">Percentage</th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-center">
-                        <tr>
-                            <td>Good</td>
-                            <td>5</td>
-                            <td>55%</td>
-                        </tr>
-                        <tr>
-                            <td>Good</td>
-                            <td>15</td>
-                            <td>80%</td>
-                        </tr>
-                        <tr>
-                            <td>Excellent</td>
-                            <td>20</td>
-                            <td>90%</td>
-                        </tr>
-                    </tbody>
-                </table>
+        <div class="row">
+            <div class="container rounded mt-2 mb-2" style="background-color: #fff;">
+                <div class="row">
+                    <div class="col mt-3">
+                        <p>Question - 2</p>
+                    </div>
+                </div>
+
+                <div class="row" style="background-color: #e7e7ef;">
+                    <div class="col mt-2">
+                        <!-- Question -->
+                        <p>How would you rate behaviour of the police officers?</p>
+                    </div>
+                </div>
+
+                <div class="row p-3">
+                    <div class="col">
+                        <div class="d-flex justify-content-center">
+                            <canvas id="q2d" width="300" height="300"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Table -->
+                <div class="row border-top mt-2">
+                    <div class="col">
+                        <table id="tq2" class="table table-borderless">
+                            <thead>
+                                <tr class="text-center">
+                                    <th scope="col">Answer Choices</th>
+                                    <th scope="col">Counts</th>
+                                    <th scope="col">Percentage</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-center">
+                                <tr>
+                                    <td>More than 15 minutes</td>
+                                    <td>0</td>
+                                    <td>0%</td>
+                                </tr>
+                                <tr>
+                                    <td>15 minutes</td>
+                                    <td>0</td>
+                                    <td>0%</td>
+                                </tr>
+                                <tr>
+                                    <td>10 minutes</td>
+                                    <td>0</td>
+                                    <td>0%</td>
+                                </tr>
+                                <tr>
+                                    <td>5 minutes</td>
+                                    <td>0</td>
+                                    <td>0%</td>
+                                </tr>
+                                <tr>
+                                    <td>Immediately</td>
+                                    <td>0</td>
+                                    <td>0%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="container rounded mt-2 mb-2" style="background-color: #fff;">
+                <div class="row">
+                    <div class="col mt-3">
+                        <p>Question - 3</p>
+                    </div>
+                </div>
+
+                <div class="row" style="background-color: #e7e7ef;">
+                    <div class="col mt-2">
+                        <!-- Question -->
+                        <p>How would you rate behaviour of the police officers (पुलिस अधिकारियों के व्यव्हार को आप कैसे
+                            आंकते हैं)</p>
+                    </div>
+                </div>
+
+                <div class="row p-3">
+                    <div class="col">
+                        <div class="d-flex justify-content-center">
+                            <canvas id="q3d" width="300" height="300"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Table -->
+                <div class="row border-top mt-2">
+                    <div class="col">
+                        <table id="tq3" class="table table-borderless">
+                            <thead>
+                                <tr class="text-center">
+                                    <th scope="col">Answer Choices</th>
+                                    <th scope="col">Counts</th>
+                                    <th scope="col">Percentage</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-center">
+                                <tr>
+                                    <td>Worst</td>
+                                    <td>0</td>
+                                    <td>0%</td>
+                                </tr>
+                                <tr>
+                                    <td>Bad</td>
+                                    <td>0</td>
+                                    <td>0%</td>
+                                </tr>
+                                <tr>
+                                    <td>Good</td>
+                                    <td>0</td>
+                                    <td>0%</td>
+                                </tr>
+                                <tr>
+                                    <td>V.Good</td>
+                                    <td>0</td>
+                                    <td>0%</td>
+                                </tr>
+                                <tr>
+                                    <td>Excellent</td>
+                                    <td>0</td>
+                                    <td>0%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+    <div class="col-6 rounded mt-1">
+        <table id="dtotal" class="table table-hover">
+            <thead>
+                <tr>
+                    <th>District</th>
+                    <th>This year</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Ahmedabad</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Amreli</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Aravalli</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Anand</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Banaskantha</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Bharuch</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Bhavnagar</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Botad</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Chhota Udaipur</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Dahod</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Dang</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Dwarka</td>
+                    <td>0</td>
+                </tr>
 
-    <!-- Bootstrap Script -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
-        crossorigin="anonymous"></script>
-    <!-- Iconify Script -->
-    <script src="https://code.iconify.design/iconify-icon/1.0.0/iconify-icon.min.js"></script>
+                <tr>
+                    <td>Gandhinagar</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Gir Somnath</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Jamnagar</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Junagadh</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Kutch</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Kheda</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Mahisagar</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Mehsana</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Morbi</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Narmada</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Navsari</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Panchmahal</td>
+                    <td>0</td>
+                </tr>
 
-    <script>
+                <tr>
+                    <td>Patan</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Porbandar</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Rajkot</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Sabarkantha</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Surat</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Surendranagar</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Tapi</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Vadodara</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Valsad</td>
+                    <td>0</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
 
-        const q1_donut = document.getElementById('myChart').getContext('2d');
-        const q1_bar = document.getElementById('myChart1').getContext('2d');
+{% block script %}
+<script>
 
+    function addCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
 
-        const myChart = new Chart(q1_donut,
-            {
-                type: 'doughnut',
-                data: {
-                    datasets: [{
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(255, 159, 64, 0.2)',
-                            'rgba(255, 205, 86, 0.2)',
-                            'rgba(75, 192, 192, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(153, 102, 255, 0.2)'
-                        ],
-                        borderColor: [
-                            'rgb(255, 99, 132)',
-                            'rgb(255, 159, 64)',
-                            'rgb(255, 205, 86)',
-                            'rgb(75, 192, 192)',
-                            'rgb(54, 162, 235)',
-                            'rgb(153, 102, 255)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'right'
-                        },
-                    },
-                },
-            });
-        myChart.data.datasets[0].data = [1, 2, 3];
-        myChart.data.labels = ['Through a person known to a police officer', 'With a neighbour/ local leader', 'On your own'];
-        myChart.update();
+    const backgroundColor = ['rgba(255, 99, 132, 0.2)', 'rgba(255, 159, 64, 0.2)', 'rgba(255, 205, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(153, 102, 255, 0.2)'];
 
-        const myChart1 = new Chart(q1_bar, {
-            type: 'bar',
-            data: {
-                labels: ['Excellent', 'Good', 'Ok'],
-                datasets: [{
-                    label: '# of Votes',
-                    data: [12, 19, 3],
-                    backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(255, 159, 64, 0.2)',
-                            'rgba(255, 205, 86, 0.2)',
-                            'rgba(75, 192, 192, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(153, 102, 255, 0.2)'
-                        ],
-                        borderColor: [
-                            'rgb(255, 99, 132)',
-                            'rgb(255, 159, 64)',
-                            'rgb(255, 205, 86)',
-                            'rgb(75, 192, 192)',
-                            'rgb(54, 162, 235)',
-                            'rgb(153, 102, 255)'
-                        ],
-                        borderWidth: 1
-                }]
+    const borderColor = ['rgb(255, 99, 132)', 'rgb(255, 159, 64)', 'rgb(255, 205, 86)', 'rgb(75, 192, 192)', 'rgb(54, 162, 235)', 'rgb(153, 102, 255)'];
+
+    const type = 'doughnut';
+    const borderWidth = 1;
+    const hoverOffset = 2;
+
+    const options = {
+        responsive: true,
+        maintainAspectRatio: false,
+        aspectRatio: 1,
+        plugins: {
+            legend: {
+                position: 'right',
+                display: true,
             },
-            options: {
-                responsive: false,
-                maintainAspectRatio: false,
-                aspectRatio: 1,
-                layout: {
-                    padding: 5
-                }
-            },
+        },
+    }
+
+    const datasets = [
+        [{ backgroundColor: backgroundColor, borderColor: borderColor, borderWidth: borderWidth, hoverOffset: hoverOffset }],
+        [{ backgroundColor: backgroundColor, borderColor: borderColor, borderWidth: borderWidth, hoverOffset: hoverOffset }],
+        [{ backgroundColor: backgroundColor, borderColor: borderColor, borderWidth: borderWidth, hoverOffset: hoverOffset }],
+    ]
+
+    const config_q1 = {
+        type: type,
+        data: {
+            datasets: datasets[0],
+            labels: ['Through a person known to a police officer', 'With a neighbour/ local leader', 'On your own'],
+        },
+        options: options,
+    }
+
+    const config_q2 = {
+        type: type,
+        data: {
+            datasets: datasets[1],
+            labels: ['More than 15 minutes', '15 minutes', '10 minutes', '5 minutes', 'Immediately'],
+        },
+        options: options,
+    }
+
+    const config_q3 = {
+        type: type,
+        data: {
+            datasets: datasets[2],
+            labels: ['Worst', 'Bad', 'Good', 'V.Good', 'Excellent'],
+        },
+        options: options,
+    }
+
+    const q1 = new Chart('q1d', config_q1);
+    const q2 = new Chart('q2d', config_q2);
+    const q3 = new Chart('q3d', config_q3);
+
+    function chartUpdate() {
+        q1.update();
+        q2.update();
+        q3.update();
+    }
+
+    chartUpdate();
+    window.onload = function () {
+        $.getJSON("/dashboard/get/question/all", { 'filter-date': 'l30d' }, function (result) {
+            datasets[0][0].data = Object.values(result['q1']['percentage']);
+            q2.data.datasets[0].data = Object.values(result['q2']['percentage']);
+            q3.data.datasets[0].data = Object.values(result['q3']['percentage']);
+            chartUpdate();
+
+            var i = 1;
+            var j = 1;
+            for (id in result) {
+                $('#t' + id + ' tbody tr td:nth-child(2)').each(function () {
+                    if (result[id]['count'][i])
+                        $(this).text(addCommas(result[id]['count'][i]));
+                    i++;
+                });
+                $('#t' + id + ' tbody tr td:nth-child(3)').each(function () {
+                    if (result[id]['percentage'][j])
+                        $(this).text(addCommas(String(result[id]['percentage'][j]).slice(0, 4)) + '%');
+                    j++;
+                });
+            }
         });
-    </script>
-</body>
 
-</html>
+        $.getJSON("/dashboard/get/district/total", { 'filter-date': 'l365d' }, function (result) {
+            for (id in result) {
+                $($('#dtotal tbody tr td:nth-child(2)')[id - 1]).text(addCommas(result[id]));
+            }
+        });
+
+    }
+
+</script>
+{% endblock %}

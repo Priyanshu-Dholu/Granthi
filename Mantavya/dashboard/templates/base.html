@@ -1,0 +1,118 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+  <!-- Custom Styles -->
+  <link rel="stylesheet" type="text/css" href="{% static 'custom.css' %}">
+  <!-- Iconify -->
+  <script src="https://code.iconify.design/iconify-icon/1.0.0/iconify-icon.min.js"></script>
+  <!-- QRCode.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
+    integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <!-- Jquery -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
+    integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <!-- PrinThis -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/printThis/1.15.0/printThis.min.js"
+    integrity="sha512-d5Jr3NflEZmFDdFHZtxeJtBzk0eB+kkRXWFQqEc1EKmolXjHm2IKCA7kTvXBNjIYzjXfD5XzIjaaErpkZHCkBg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <!-- Chart JS -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Title -->
+  <title>{% block title %} {% endblock %}</title>
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <!-- Sidebar -->
+    <nav id="sidebar">
+      <div class="d-flex flex-nowrap h-100 sticky-top">
+        <div class="d-flex flex-column flex-shrink-0 p-3 bg-light">
+
+          <a href="/" class="d-flex align-items-center ms-4 mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+            <img class="bi pe-none me-2" src="{% static 'Gujarat_Police_Logo.png' %}" width="30" height="40"></img>
+            <span class="fs-4 fw-bold">Mantavya</span>
+          </a>
+
+          <ul class="nav nav-pills flex-column mt-4" id="list-style-ul">
+            <p class="text-start ms-2 opacity-50">Menu</p>
+            <li class="nav-item m-1">
+              <a href="#" class="nav-link" id="nav-text" aria-current="page">
+                <iconify-icon icon="charm:layout-dashboard" id="menu-icons" class="me-2" width="20" height="20">
+                </iconify-icon>
+                <span>Overview</span>
+              </a>
+            </li>
+            <li class="nav-item m-1">
+              <a href="#" class="nav-link link-dark">
+                <iconify-icon icon="ant-design:pie-chart-outlined" id="menu-icons" class="bi pe-none me-2" width="20"
+                  height="20">
+                </iconify-icon>
+                Detailed
+              </a>
+            </li>
+            <li class="nav-item m-1">
+              <a href="#" class="nav-link active link-dark">
+                <iconify-icon icon="bi:qr-code-scan" id="menu-icons" class="bi pe-none me-2" width="20" height="20">
+                </iconify-icon>
+                Generate QR
+              </a>
+            </li>
+            <li class="nav-item m-1">
+              <a href="#" class="nav-link link-dark">
+                <iconify-icon icon="ant-design:setting-outlined" id="menu-icons" class="bi pe-none me-2" width="20"
+                  height="20">
+                </iconify-icon>
+                Settings
+              </a>
+            </li>
+            <li class="mt-4 border text-center rounded" style="background-color: #f8f9fb;">
+              <a href="#" class="nav-link link-dark" tabindex="-1" role="button" aria-disabled="true">
+                <iconify-icon icon="iconoir:log-in" id="menu-icons"></iconify-icon> Log out
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div id="content" class="p-2">
+        {% block body %} {% endblock %}
+    </div>
+  </div>
+
+  
+
+
+    {% block script %} {% endblock %}
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+    crossorigin="anonymous"></script>
+  <!-- JS PDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"
+    integrity="sha512-1g3IT1FdbHZKcBVZzlk4a4m5zLRuBjMFMxub1FeIRvR+rhfqHFld9VFXXBYe66ldBWf+syHHxoZEbZyunH6Idg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <!-- Html To Canvas -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
+    integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <!-- Script To Generate QR Code -->
+  <script type="text/javascript">
+    new QRCode(document.getElementById("qrcode"), "http://google.com");
+  </script>
+</body>
+
+</html>
