@@ -23,8 +23,8 @@ class District(models.Model):
 
     # return answer count for particular question of district.
     @classmethod
-    def answer_count(cls, district_id:int, que:str, date) -> dict:
-        result = Feedback.objects.filter(psId__taluka__district=district_id).filter(date__gte=get_date(date)).values_list(que).annotate(count=Count(que))
+    def answer_count(cls, id:int, que:str, date) -> dict:
+        result = Feedback.objects.filter(psId__taluka__district=id).filter(date__gte=get_date(date)).values_list(que).annotate(count=Count(que))
         return {i:j for i,j in result}
 
 
@@ -42,8 +42,8 @@ class Taluka(models.Model):
 
     # return answer count for particular question of taluka.
     @classmethod
-    def answer_count(cls, taluka_id:int, que:str, date) -> dict:
-        result = Feedback.objects.filter(psId__taluka=taluka_id).filter(date__gte=get_date(date)).values_list(que).annotate(count=Count(que))
+    def answer_count(cls, id:int, que:str, date) -> dict:
+        result = Feedback.objects.filter(psId__taluka=id).filter(date__gte=get_date(date)).values_list(que).annotate(count=Count(que))
         return {i:j for i,j in result}
 
 
@@ -91,7 +91,7 @@ class Feedback(models.Model):
     q3 = models.ForeignKey(AnswerList, on_delete=models.CASCADE, related_name="q3")
     q4 = models.TextField(max_length=300)
     psId = models.ForeignKey(PoliceStation, on_delete=models.CASCADE, related_name='feedback')
-    date = models.DateField()
+    date = models.DateField(auto_now=True)
 
     # Return Total feedbacks
     @classmethod

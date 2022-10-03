@@ -62,9 +62,10 @@ def resendOTP(request):
 # verifying mobile number, send OTP, reutrn feedback form
 def feedback(request, qrid):
     if request.method == 'GET':
+        psname = PoliceStation.objects.get(qrId=qrid).name
         data = {
-            'ps': "Hi",
-            "gu_ps" : translator.translate("Hi"), 
+            'ps': psname,
+            "gu_ps" : translator.translate(psname), 
             'psid': qrid
         }
         
@@ -132,3 +133,6 @@ def verify_otp(request):
             return render(request, 'verify-otp.html', data)
         
         return redirect('Home')
+
+def thanku(request):
+    return render(request, 'thanku.html')

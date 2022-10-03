@@ -39,7 +39,11 @@ function send_feedback() {
         url: "/feedback/send",
         method: "POST",
         data: data,
+        success: function(){
+            location.replace("/feedback/submitted")
+        }
     });
+
 }
 
 $('.star').on('click', function () {
