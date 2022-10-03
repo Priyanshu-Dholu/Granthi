@@ -26,10 +26,11 @@ const datasets = [
     [{ backgroundColor: backgroundColor, borderColor: borderColor, borderWidth: borderWidth, hoverOffset: hoverOffset }],
     [{ backgroundColor: backgroundColor, borderColor: borderColor, borderWidth: borderWidth, hoverOffset: hoverOffset }],
     [{ backgroundColor: backgroundColor, borderColor: borderColor, borderWidth: borderWidth, hoverOffset: hoverOffset }],
+    [{ backgroundColor: backgroundColor, borderColor: borderColor, borderWidth: borderWidth, hoverOffset: hoverOffset }],
 ]
 
 const config_q1 = {
-    type: type,
+    type: 'doughnut',
     data: {
         datasets: datasets[0],
         labels: ['Through a person known to a police officer', 'With a neighbour/ local leader', 'On your own'],
@@ -38,7 +39,7 @@ const config_q1 = {
 }
 
 const config_q2 = {
-    type: type,
+    type: 'doughnut',
     data: {
         datasets: datasets[1],
         labels: ['More than 15 minutes', '15 minutes', '10 minutes', '5 minutes', 'Immediately'],
@@ -47,7 +48,7 @@ const config_q2 = {
 }
 
 const config_q3 = {
-    type: type,
+    type: 'doughnut',
     data: {
         datasets: datasets[2],
         labels: ['Worst', 'Bad', 'Good', 'V.Good', 'Excellent'],

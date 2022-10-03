@@ -17,7 +17,7 @@ All time
 '''
 def get_date(l:str):
     today = dt.datetime.now()
-    
+    d = dt.datetime.now()
     if l == "td":
         return today.date()
     elif l == "l7d":

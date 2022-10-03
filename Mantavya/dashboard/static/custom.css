@@ -16,14 +16,13 @@
 }
 
 #sidebar {
+    flex-grow: 1;
+    align-self: start;
+    position: sticky;
+    top: 0;
     min-width: 225px;
     max-width: 225px;
-    color: #fff;
-    transition: all 0.3s;
-}
-
-#sidebar.active {
-    margin-left: -250px;
+    overflow: auto;
 }
 
 

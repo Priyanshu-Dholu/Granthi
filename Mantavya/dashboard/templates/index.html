@@ -1,9 +1,34 @@
-{% extends "base.html" %}
+{% extends "dashboard.html" %}
 {% load static %}
 {% block title %}Home{% endblock %}
 
 {% block body %}
 <div class="row">
+
+    <div class="container mt-5" style="background-color: #fff;">
+        <div class="row">
+            <div class="col mt-5 ms-5 fs-4">
+                <p>No.Of Responses</p>
+            </div>
+            <div id="form-date" class="col d-flex justify-content-end mt-2">
+                <label>Date :</label>
+                <select style="border:none; height:25px;">
+                    <option value="td">Today</option>
+                    <option value="l7d">last 7 days</option>
+                    <option value="l30d" selected>last 30 days</option>
+                    <option value="l90d">last 90 days</option>
+                    <option value="l365d">last 365 days</option>
+                    <option value="at">All time</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col m-2">
+                <canvas id="total-res"></canvas>
+            </div>
+        </div>
+    </div>
+
     <div class="col-6">
         <!-- 1 Question report -->
         <div class="row">
@@ -349,6 +374,21 @@
 
 {% block script %}
 <script src="{% static 'chart.js' %}"></script>
+
+<script>
+    const config_t = {
+        type: 'bar',
+        data: {
+            datasets: datasets[3],
+            labels: ['January','February','March','April','May','June','July','August','September','October','November','December'],
+        },
+        options: options,
+    }
+    // const Tchart = new Chart('total-res', config_t);
+    // Tchart.options.plugins.legend.display = false;
+    // Tchart.data.datasets[0].data = [1,2,3,4,5,6,7,8,9,10,11,12];
+    // Tchart.update();
+</script>
 
 <script>
     window.onload = function () {
