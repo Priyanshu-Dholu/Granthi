@@ -3,6 +3,11 @@ from django.shortcuts import render
 from feedback.models import *
 from .functions import *
 
+from translate import Translator
+
+translator = Translator(from_lang = "en",to_lang="gu-IN")
+
+
 QUESTIONS = ['q1', 'q2', 'q3'] 
 
 
@@ -12,6 +17,8 @@ def index(request):
 def detailed(request):
     return render(request, 'detailed.html')
 
+def qrgenerator(request):
+    return render(request, 'qr-generator.html')
 
 def get_question_data(request, filter):
     '''
@@ -46,6 +53,12 @@ def get_question_data(request, filter):
                     data[que]['percentage'] = percentage(d)
         return JsonResponse(data)
 
+def get_qrid(request):
+    if request.method == "GET":
+        ps = PoliceStation.objects.get(id=request.GET.get('psid'))
+        data = {'qrid' : ps.qrId, 'ename': ps.name, 'gname': translator.translate(ps.name)}
+        return JsonResponse(data)
+        
 def get_district_data(request, filter):
     if request.method == "GET":
         data = {'error': True}

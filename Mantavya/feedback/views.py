@@ -1,4 +1,3 @@
-from turtle import circle
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.http import Http404, JsonResponse
