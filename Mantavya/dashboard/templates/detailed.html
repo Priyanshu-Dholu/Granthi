@@ -1,56 +1,345 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block title %}Detailed{% endblock %}
 
 {% block body %}
 <div class="container mt-3">
-    <div class="row">
-        <div class="container mt-1 rounded border" style="background-color: #fff; margin-left: -25px;">
-          <div class="row">
-            <div class="col-6 p-3">
-              <select class="form-select w-100 border-bottom border-dark border-0" aria-label="Select District">
-                <option selected>Select District</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-              </select>
-            </div>
-            <div class="col-6 p-3">
-              <select class="form-select w-100 border-bottom border-dark border-0" aria-label="Select Taluka">
-                <option selected>Select Taluka</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-              </select>
-            </div>
+  <div class="row">
+    <div class="container mt-1 rounded border" style="background-color: #fff">
+      <form>
+        <div class="row">
+          <div class="col-6 p-3">
+            <select id="form-district" class="form-select w-100 border-bottom border-dark border-0"
+              aria-label="Select District" onchange="get_taluka($('#form-district').find(':selected').val())">
+              <option selected value="default" disabled>Select District</option>
+            </select>
           </div>
-          <div class="row">
-            <div class="col-6 p-3">
-              <select class="form-select w-100 border-bottom border-dark border-0" aria-label="Select Station">
-                <option selected>Select Police Station</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-              </select>
-            </div>
-            <div class="col-3 p-3">
-              <select class="form-select w-100 border-bottom border-dark border-0" aria-label="Select Date">
-                <option selected>This Month</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-              </select>
-            </div>
-            
-            <div class="col d-grid align-self-center">
-              <button type="button" class="btn btn-outline-primary btn-lg mb-1" id="search-btn">Search</button>
-            </div>
-            <div class="col d-grid align-self-center">
-              <button type="button" class="btn btn-outline-danger btn-lg mb-1" id="reset-btn">Reset</button>
-            </div>
+          <div class="col-6 p-3">
+            <select id="form-taluka" class="form-select w-100 border-bottom border-dark border-0"
+              aria-label="Select Taluka" onchange="get_policestation($('#form-taluka').find(':selected').val())">
+              <option selected value="default" disabled>Select Taluka</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6 p-3">
+            <select id="form-policestation" class="form-select w-100 border-bottom border-dark border-0"
+              aria-label="Select Station">
+              <option selected value="default" disabled>Select Police Station</option>
+            </select>
+          </div>
+          <div class="col-3 p-3">
+            <select id="form-date" class="form-select w-100 border-bottom border-dark border-0" aria-label="Select Date">
+              <option value="td">Today</option>
+              <option value="l7d">last 7 days</option>
+              <option value="l30d" selected>last 30 days</option>
+              <option value="l90d">last 90 days</option>
+              <option value="l365d">last 365 days</option>
+              <option value="at">All time</option>
+            </select>
+          </div>
+
+          <div class="col d-grid align-self-center">
+            <button type="button" class="btn btn-outline-primary btn-lg mb-1" id="search-btn"
+              onclick="search()">Search</button>
+          </div>
+          <div class="col d-grid align-self-center">
+            <button type="reset" class="btn btn-outline-danger btn-lg mb-1" id="reset-btn"
+              onclick="form_reset()">Reset</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- 1 Question report -->
+  <div class="row">
+    <div class="container rounded mt-2 mb-2" style="background-color: #fff;">
+      <div class="row">
+        <div class="col mt-3">
+          <p>Question - 1</p>
+        </div>
+      </div>
+
+      <div class="row" style="background-color: #e7e7ef;">
+        <div class="col mt-2">
+          <!-- Question -->
+          <p>How would you rate behaviour of the police officers?</p>
+        </div>
+      </div>
+
+      <div class="row p-3">
+        <div class="col">
+          <div class="d-flex justify-content-center">
+            <canvas id="q1d" width="300" height="300"></canvas>
           </div>
         </div>
       </div>
+
+      <!-- Table -->
+      <div class="row border-top mt-2">
+        <div class="col">
+          <table id="tq1" class="table table-borderless">
+            <thead>
+              <tr class="text-center">
+                <th scope="col">Answer Choices</th>
+                <th scope="col">Counts</th>
+                <th scope="col">Percentage</th>
+              </tr>
+            </thead>
+            <tbody class="text-center">
+              <tr>
+                <td>Through a person known to a police officer</td>
+                <td>0</td>
+                <td>0%</td>
+              </tr>
+              <tr>
+                <td>With a neighbour/ local leader</td>
+                <td>0</td>
+                <td>0%</td>
+              </tr>
+              <tr>
+                <td>On your own</td>
+                <td>0</td>
+                <td>0%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2 Question report -->
+  <div class="row">
+    <div class="container rounded mt-2 mb-2" style="background-color: #fff;">
+      <div class="row">
+        <div class="col mt-3">
+          <p>Question - 2</p>
+        </div>
+      </div>
+
+      <div class="row" style="background-color: #e7e7ef;">
+        <div class="col mt-2">
+          <!-- Question -->
+          <p>How would you rate behaviour of the police officers?</p>
+        </div>
+      </div>
+
+      <div class="row p-3">
+        <div class="col">
+          <div class="d-flex justify-content-center">
+            <canvas id="q2d" width="300" height="300"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="row border-top mt-2">
+        <div class="col">
+          <table id="tq2" class="table table-borderless">
+            <thead>
+              <tr class="text-center">
+                <th scope="col">Answer Choices</th>
+                <th scope="col">Counts</th>
+                <th scope="col">Percentage</th>
+              </tr>
+            </thead>
+            <tbody class="text-center">
+              <tr>
+                <td>More than 15 minutes</td>
+                <td>0</td>
+                <td>0%</td>
+              </tr>
+              <tr>
+                <td>15 minutes</td>
+                <td>0</td>
+                <td>0%</td>
+              </tr>
+              <tr>
+                <td>10 minutes</td>
+                <td>0</td>
+                <td>0%</td>
+              </tr>
+              <tr>
+                <td>5 minutes</td>
+                <td>0</td>
+                <td>0%</td>
+              </tr>
+              <tr>
+                <td>Immediately</td>
+                <td>0</td>
+                <td>0%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3 Question report -->
+  <div class="row">
+    <div class="container rounded mt-2 mb-2" style="background-color: #fff;">
+      <div class="row">
+        <div class="col mt-3">
+          <p>Question - 3</p>
+        </div>
+      </div>
+
+      <div class="row" style="background-color: #e7e7ef;">
+        <div class="col mt-2">
+          <!-- Question -->
+          <p>How would you rate behaviour of the police officers (पुलिस अधिकारियों के व्यव्हार को आप कैसे
+            आंकते हैं)</p>
+        </div>
+      </div>
+
+      <div class="row p-3">
+        <div class="col">
+          <div class="d-flex justify-content-center">
+            <canvas id="q3d" width="300" height="300"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="row border-top mt-2">
+        <div class="col">
+          <table id="tq3" class="table table-borderless">
+            <thead>
+              <tr class="text-center">
+                <th scope="col">Answer Choices</th>
+                <th scope="col">Counts</th>
+                <th scope="col">Percentage</th>
+              </tr>
+            </thead>
+            <tbody class="text-center">
+              <tr>
+                <td>Worst</td>
+                <td>0</td>
+                <td>0%</td>
+              </tr>
+              <tr>
+                <td>Bad</td>
+                <td>0</td>
+                <td>0%</td>
+              </tr>
+              <tr>
+                <td>Good</td>
+                <td>0</td>
+                <td>0%</td>
+              </tr>
+              <tr>
+                <td>V.Good</td>
+                <td>0</td>
+                <td>0%</td>
+              </tr>
+              <tr>
+                <td>Excellent</td>
+                <td>0</td>
+                <td>0%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
+
+{% block script %}
+<script src="{% static 'chart.js' %}"></script>
+
+<!-- chart handlers -->
+<script>
+  function updateData(data) {
+    q1.data.datasets[0].data = Object.values(data['q1']['percentage']);
+    q2.data.datasets[0].data = Object.values(data['q2']['percentage']);
+    q3.data.datasets[0].data = Object.values(data['q3']['percentage']);
+    chartUpdate();
+
+    var i = 1;
+    var j = 1;
+    for (id in data) {
+      $('#t' + id + ' tbody tr td:nth-child(2)').each(function () {
+        if (data[id]['count'][i])
+          $(this).text(addCommas(data[id]['count'][i]));
+        else
+          $(this).text(0);
+        i++;
+      });
+      $('#t' + id + ' tbody tr td:nth-child(3)').each(function () {
+        if (data[id]['percentage'][j])
+          $(this).text(addCommas(String(data[id]['percentage'][j]).slice(0, 4)) + '%');
+        else
+        $(this).text('0%');
+        j++;
+
+      });
+    }
+  }
+
+  function get_selected(id){
+    return $(id).find(':selected').val();
+  }
+  function search() {
+   
+    if ( get_selected('#form-policestation') !== 'default' ) {
+      $.getJSON("/dashboard/get/question/ps", { 'id': get_selected('#form-policestation'), 'filter-date': get_selected('#form-date') }, function (data) {
+        updateData(data);
+      });
+    }
+
+    else if ( get_selected('#form-taluka') !== 'default' ) {
+      $.getJSON("/dashboard/get/question/tk", { 'id': get_selected('#form-taluka'), 'filter-date': get_selected('#form-date') }, function (data) {
+        updateData(data);
+      });
+    }
+
+    else if ( get_selected('#form-district') !== 'default' ) {
+      $.getJSON("/dashboard/get/question/dt", { 'id': get_selected('#form-district'), 'filter-date': get_selected('#form-date') }, function (data) {
+        updateData(data);
+      });
+    }
+  };
+
+
+</script>
+<!-- Form handlers -->
+<script>
+  $.get("/dashboard/get/district/all", function (data) {
+    for (id in data) {
+      $('#form-district').append(`<option value="${id}">${data[id]}</option>`);
+    }
+  });
+
+  function get_taluka(district_id) {
+    $('#form-taluka').html(`<option selected value="default" disabled>Select Taluka</option>`);
+
+    $.get("/dashboard/get/taluka/all", { 'district-id': district_id }, function (data) {
+      for (id in data) {
+        $('#form-taluka').append(`<option value="${id}">${data[id]}</option>`);
+      }
+    });
+  }
+
+  function get_policestation(taluka_id) {
+    $('#form-policestation').html(`<option selected value="default" disabled>Select Police Station</option>`);
+
+    $.get("/dashboard/get/policestation/all", { 'taluka-id': taluka_id }, function (data) {
+      for (id in data) {
+        $('#form-policestation').append(`<option value="${id}">${data[id]}</option>`);
+      }
+    });
+  }
+
+  function form_reset() {
+    $('#form-taluka').html(`<option selected value="default" disabled>Select Taluka</option>`);
+    $('#form-policestation').html(`<option selected value="default" disabled>Select Police Station</option>`);
+  }
+</script>
+{% endblock script %}
+
 
 {% endblock %}

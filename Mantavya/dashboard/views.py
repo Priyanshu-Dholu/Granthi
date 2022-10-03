@@ -29,7 +29,21 @@ def get_question_data(request, filter):
                     d = Feedback.answer_count(que, date)
                     data[que]['count'] = d
                     data[que]['percentage'] = percentage(d)  
-        
+            case 'ps':
+                for que in data:
+                    d = PoliceStation.answer_count(id=request.GET.get('id'),que=que, date=date)
+                    data[que]['count'] = d
+                    data[que]['percentage'] = percentage(d)  
+            case 'tk':
+                for que in data:
+                    d = Taluka.answer_count(id=request.GET.get('id'),que=que, date=date)
+                    data[que]['count'] = d
+                    data[que]['percentage'] = percentage(d)
+            case 'dt':
+                for que in data:
+                    d = District.answer_count(id=request.GET.get('id'),que=que, date=date)
+                    data[que]['count'] = d
+                    data[que]['percentage'] = percentage(d)
         return JsonResponse(data)
 
 def get_district_data(request, filter):
