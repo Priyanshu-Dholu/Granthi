@@ -12,13 +12,13 @@ QUESTIONS = ['q1', 'q2', 'q3']
 
 
 def index(request):
-    return render(request, 'index.html')
+    return render(request, 'index.html' , {'current': 'overview'})
 
 def detailed(request):
-    return render(request, 'detailed.html')
+    return render(request, 'detailed.html', {'current': 'detailed'})
 
 def qrgenerator(request):
-    return render(request, 'qr-generator.html')
+    return render(request, 'qr-generator.html', {'current': 'qrgenerator'})
 
 def get_question_data(request, filter):
     '''

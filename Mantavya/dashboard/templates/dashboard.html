@@ -47,14 +47,14 @@
           <ul class="nav nav-pills flex-column mt-4" id="list-style-ul">
             <p class="text-start ms-2 opacity-50">Menu</p>
             <li class="nav-item m-1">
-              <a href="#" class="nav-link" id="nav-text" aria-current="page">
+              <a href="/dashboard/" class="nav-link {% if current == 'overview' %} active {% endif %}" id="nav-text" aria-current="page">
                 <iconify-icon icon="charm:layout-dashboard" id="menu-icons" class="me-2" width="20" height="20">
                 </iconify-icon>
                 <span>Overview</span>
               </a>
             </li>
             <li class="nav-item m-1">
-              <a href="#" class="nav-link link-dark">
+              <a href="/dashboard/detailed" class="nav-link {% if current == 'detailed' %} active {% endif %} link-dark">
                 <iconify-icon icon="ant-design:pie-chart-outlined" id="menu-icons" class="bi pe-none me-2" width="20"
                   height="20">
                 </iconify-icon>
@@ -62,21 +62,21 @@
               </a>
             </li>
             <li class="nav-item m-1">
-              <a href="#" class="nav-link active link-dark">
+              <a href="/dashboard/qrgenerator" class="nav-link {% if current == 'qrgenerator' %} active {% endif %} link-dark">
                 <iconify-icon icon="bi:qr-code-scan" id="menu-icons" class="bi pe-none me-2" width="20" height="20">
                 </iconify-icon>
                 Generate QR
               </a>
             </li>
             <li class="nav-item m-1">
-              <a href="#" class="nav-link link-dark">
+              <a href="#" class="nav-link link-dark {% if current == 'setting' %} active {% endif %}">
                 <iconify-icon icon="ant-design:setting-outlined" id="menu-icons" class="bi pe-none me-2" width="20"
                   height="20">
                 </iconify-icon>
                 Settings
               </a>
             </li>
-            <li class="mt-4 border text-center" style="background-color: #f8f9fb;">
+            <li class="mt-4 border text-center rounded" style="background-color: #f8f9fb;">
               <a href="#" class="nav-link link-dark" tabindex="-1" role="button" aria-disabled="true">
                 <iconify-icon icon="iconoir:log-in" id="menu-icons"></iconify-icon> Log out
               </a>
