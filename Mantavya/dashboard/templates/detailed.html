@@ -2,8 +2,17 @@
 {% load static %}
 {% block title %}Detailed{% endblock %}
 
+{% block style %}
+<!-- DatePicker UI -->
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+{% endblock style %}
+
 {% block body %}
 <div class="container mt-3">
+  {% if district %}
   <div class="row">
     <div class="container mt-1 rounded border" style="background-color: #fff">
       <form>
@@ -29,14 +38,14 @@
             </select>
           </div>
           <div class="col-3 p-3">
-            <select id="form-date" class="form-select w-100 border-bottom border-dark border-0" aria-label="Select Date">
-              <option value="td">Today</option>
-              <option value="l7d">last 7 days</option>
-              <option value="l30d" selected>last 30 days</option>
-              <option value="l90d">last 90 days</option>
-              <option value="l365d">last 365 days</option>
-              <option value="at">All time</option>
-            </select>
+            <div class="input-group date" id="datepicker">
+              <input type="text" class="form-control date-picker" name="daterange" id="date-picker" />
+              <span class="input-group-append">
+                <span class="input-group-text bg-light d-block date-picker">
+                  <iconify-icon icon="bi:calendar"></iconify-icon>
+                </span>
+              </span>
+            </div>
           </div>
 
           <div class="col d-grid align-self-center">
@@ -51,6 +60,28 @@
       </form>
     </div>
   </div>
+  {% else %}
+  <div class="row justify-content-end mb-2 mt-2">
+    <div class="col-6 align-self-center">
+      <p class="fs-3 m-0">{{ps_name}}</p>
+    </div>
+    <div class="col-6 align-self-end">
+      <form class="d-flex flex-row justify-content-end">
+        <label for="date" class="col-1 col-form-label">Date: </label>
+        <div class="col-5">
+          <div class="input-group date" id="datepicker">
+            <input type="text" class="form-control date-picker" id="data-picker" name="daterange" />
+            <span class="input-group-append">
+              <span class="input-group-text bg-light d-block date-picker" id='datepickericon'>
+                <iconify-icon icon="simple-line-icons:calender"></iconify-icon>
+              </span>
+            </span>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  {%endif%}
   <!-- 1 Question report -->
   <div class="row">
     <div class="container rounded mt-2 mb-2" style="background-color: #fff;">
@@ -245,101 +276,105 @@
       </div>
     </div>
   </div>
-
+  <div class="row rounded" style="background-color: #fff;">
+    <div class="table-responsive mt-3">
+      <table class="table table-bordered table-hover table-striped">
+        <thead>
+          <tr class="text-center text-nowrap">
+            <th>Sr</th>
+            <th>Mobile No</th>
+            <th>Date</th>
+            <th>Question - 1</th>
+            <th>Question - 2</th>
+            <th>Question - 3</th>
+            <th>Question - 4</th>
+          </tr>
+        </thead>
+        <tbody id="report-data">
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
+</div>
+{% endblock body %}
+
 
 {% block script %}
-<script src="{% static 'chart.js' %}"></script>
+<script src="{% static 'js/detailed.js' %}"></script>
+<script src="{% static 'js/chart.js' %}"></script>
+<script src="{% static 'js/questions.js' %}"></script>
+<script src="{% static 'js/report.js' %}"></script>
+<script src="{% static 'js/form-filter.js' %}"></script>
 
-<!-- chart handlers -->
 <script>
-  function updateData(data) {
-    q1.data.datasets[0].data = Object.values(data['q1']['percentage']);
-    q2.data.datasets[0].data = Object.values(data['q2']['percentage']);
-    q3.data.datasets[0].data = Object.values(data['q3']['percentage']);
-    chartUpdate();
+  let question = new Question()
+  let report = new Report()
+</script>
 
-    var i = 1;
-    var j = 1;
-    for (id in data) {
-      $('#t' + id + ' tbody tr td:nth-child(2)').each(function () {
-        if (data[id]['count'][i])
-          $(this).text(addCommas(data[id]['count'][i]));
-        else
-          $(this).text(0);
-        i++;
-      });
-      $('#t' + id + ' tbody tr td:nth-child(3)').each(function () {
-        if (data[id]['percentage'][j])
-          $(this).text(addCommas(String(data[id]['percentage'][j]).slice(0, 4)) + '%');
-        else
-        $(this).text('0%');
-        j++;
 
-      });
+<script>
+  var sdate = get_today_date(), edate = get_today_date();
+  var sdate, edate;
+
+  // DatePicker Handler
+  $(function () {
+    $('input[name="daterange"]').daterangepicker({
+      ranges: {
+        'Today': [moment(), moment()],
+        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+        'This Month': [moment().startOf('month'), moment().endOf('month')],
+        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+      },
+      "alwaysShowCalendars": true,
+      locale: {
+        cancelLabel: 'Clear'
+      },
+    }, function (start, end, label) {
+      sdate = start.format('DD-MM-YYYY')
+      edate = end.format('DD-MM-YYYY')
+
+      {% if district == false %}
+        data = { id: {{ psid }}, 'start-date': sdate, 'end-date': edate };
+        
+        question.policestation(data);
+        report.policestation(data);
+      {% endif %}
     }
-  }
+    );
+  });
 
-  function get_selected(id){
-    return $(id).find(':selected').val();
-  }
+
+{% if district %}
+
   function search() {
-   
-    if ( get_selected('#form-policestation') !== 'default' ) {
-      $.getJSON("/dashboard/get/question/ps", { 'id': get_selected('#form-policestation'), 'filter-date': get_selected('#form-date') }, function (data) {
-        updateData(data);
-      });
-    }
+    $('#report-data').html("");
 
-    else if ( get_selected('#form-taluka') !== 'default' ) {
-      $.getJSON("/dashboard/get/question/tk", { 'id': get_selected('#form-taluka'), 'filter-date': get_selected('#form-date') }, function (data) {
-        updateData(data);
-      });
-    }
+    data = { 'start-date': sdate, 'end-date': edate }
 
-    else if ( get_selected('#form-district') !== 'default' ) {
-      $.getJSON("/dashboard/get/question/dt", { 'id': get_selected('#form-district'), 'filter-date': get_selected('#form-date') }, function (data) {
-        updateData(data);
-      });
+    if (get_selected('#form-policestation') !== 'default') {
+      data['id'] = get_selected('#form-policestation');
+      question.policestation(data);
+      report.policestation(data);
+    }
+    else if (get_selected('#form-taluka') !== 'default') {
+      data['id'] = get_selected('#form-taluka');
+      question.taluka(data);
+      report.taluka(data);
+    }
+    else if (get_selected('#form-district') !== 'default') {
+      data['id'] = get_selected('#form-district');
+      question.district(data);
+      report.taluka(data);
     }
   };
 
+{% endif %}
+
 
 </script>
-<!-- Form handlers -->
-<script>
-  $.get("/dashboard/get/district/all", function (data) {
-    for (id in data) {
-      $('#form-district').append(`<option value="${id}">${data[id]}</option>`);
-    }
-  });
+<script src="https://code.iconify.design/iconify-icon/1.0.0/iconify-icon.min.js"></script>
 
-  function get_taluka(district_id) {
-    $('#form-taluka').html(`<option selected value="default" disabled>Select Taluka</option>`);
-
-    $.get("/dashboard/get/taluka/all", { 'district-id': district_id }, function (data) {
-      for (id in data) {
-        $('#form-taluka').append(`<option value="${id}">${data[id]}</option>`);
-      }
-    });
-  }
-
-  function get_policestation(taluka_id) {
-    $('#form-policestation').html(`<option selected value="default" disabled>Select Police Station</option>`);
-
-    $.get("/dashboard/get/policestation/all", { 'taluka-id': taluka_id }, function (data) {
-      for (id in data) {
-        $('#form-policestation').append(`<option value="${id}">${data[id]}</option>`);
-      }
-    });
-  }
-
-  function form_reset() {
-    $('#form-taluka').html(`<option selected value="default" disabled>Select Taluka</option>`);
-    $('#form-policestation').html(`<option selected value="default" disabled>Select Police Station</option>`);
-  }
-</script>
 {% endblock script %}
-
-
-{% endblock %}

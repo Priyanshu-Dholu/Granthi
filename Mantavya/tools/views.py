@@ -1,8 +1,10 @@
 from random import randrange
+from typing import ValuesView
 from django.shortcuts import render
 from django.http import Http404, JsonResponse
 from feedback.models import *
 import datetime as dt
+from officer.models import User
 
 def debug(data, message=''):
     print(f"::  [ {data} ] ----- {message} -----")
@@ -58,6 +60,7 @@ def insertData(request):
             debug(T, "Taluka Inserted")
             j+=1
         i+=1
+
     return JsonResponse({"status": "Inserted district and taluka into database"})
 
 def insertTestDataSet(request):
@@ -95,12 +98,12 @@ def insertTestDataSet(request):
 
 def insertFeedbackDataSet(request):
 
-    # for i in range(10):
-    #     Citizen(
-    #         mobileNum=randrange(8888888888,9999999999)
-    #     ).save()
-    #     debug(i+1,"Citizen Inserted")
-
+    for i in range(10):
+        Citizen(
+            mobileNum=randrange(8888888888,9999999999)
+        ).save()
+        debug(i+1,"Citizen Inserted")
+    
     for i in range(499):
         Feedback(
             citizenId= Citizen.objects.get(id=randrange(1,11)),
@@ -108,7 +111,7 @@ def insertFeedbackDataSet(request):
             q1=AnswerList.objects.get(id=randrange(1,4)),
             q2=AnswerList.objects.get(id=randrange(4,9)),
             q3=AnswerList.objects.get(id=randrange(9,14)),
-            psId=PoliceStation.objects.get(id=randrange(1,4)),
+            psId=PoliceStation.objects.get(id=randrange(2,11)),
             date=(dt.datetime.now() - dt.timedelta(days=randrange(1,31))).date()
         ).save()
         debug(i+1,"Feedback inserted")
@@ -116,4 +119,71 @@ def insertFeedbackDataSet(request):
     return JsonResponse({"status": "Inserted Feedback Dataset into database"})
 
 
-    
+
+def insert_users_data(request):
+    data = {
+    "Ahmedabad":"cp-ahd@gujarat.gov.in",    
+    "Amreli":"sp-amr@gujarat.gov.in",         
+    "Anand":"sp-and@gujarat.gov.in",      
+    "Aravalli":"sp-arv@gujarat.gov.in",      
+    "Banaskantha":"sp-ban@gujarat.gov.in",      
+    "Bharuch":"sp-bha@gujarat.gov.in",      
+    "Bhavnagar":"sp-bav@gujarat.gov.in",      
+    "Botad":"sp-botad@gujarat.gov.in",      
+    "Chhota Udaipur":"sp-cpr@gujarat.gov.in",      
+    "Dahod":"sp-dah@gujarat.gov.in",
+    "Dang":"sp-dan@gujarat.gov.in",
+    "Dwarka":"rbrdevbhoomi@yahoo.com",
+    "Gandhinagar":"sp-gnr@gujarat.gov.in",
+    "Gir Somnath":"sp-gir@gujarat.gov.in",      
+    "Jamnagar":"sp-jam@gujarat.gov.in",      
+    "Junagadh":"sp-jun@gujarat.gov.in",      
+    "Kutch":"sp-kut@gujarat.gov.in",      
+    "Kheda":"sp-khe@gujarat.gov.in",      
+    "Mahisagar":"sdpolunapan@gujarat.gov.in",      
+    "Mehsana":"cp-meh@gujarat.gov.in",      
+    "Morbi":"sp-mrb@gujarat.gov.in",      
+    "Narmada":"sp-nar@gujarat.gov.in",      
+    "Navsari":"sp-nav@gujarat.gov.in",      
+    "Panchmahal":"sp-pan@gujarat.gov.in",      
+    "Patan":"sp-patan@gujarat.gov.in",      
+    "Porbandar":"sp-por@gujarat.gov.in",      
+    "Rajkot":"sp-raj@gujarat.gov.in",      
+    "Sabarkantha":"sp-sab@gujarat.gov.in",      
+    "Surat":"sp-sur@gujarat.gov.in",      
+    "Surendranagar":"sp-srn@gujarat.gov.in",      
+    "Tapi":"sp-tapi@gujarat.gov.in",      
+    "Vadodara":"cp-vad@gujarat.gov.in",      
+    "Valsad":"sp-val@gujarat.gov.in"
+    }
+    for i in data:
+        debug(i, 'Data Inserted')
+        User.objects.create_user(email=data[i], password='nisheet', view=3, view_id=District.objects.get(name=i).id)
+
+    return JsonResponse({"status": "Inserted User Dataset into database"})
+
+def insert_police_station_user_data(request):
+    data = {
+    "Anjar": ["anjar.pstn.gdam@gmail.com","Anjar"],
+    "Bhachau": ["bhachau.pstn.gdam@gmail.com","Bhachau"],
+    "Bhuj- A Division": ["polstn-bhuj-kut@gujarat.gov.in","Bhuj"],
+    "Bhuj- B Division": ["polstn-bhujrl-kut@gujarat.gov.in","Bhuj"],
+    "Bhuj - Womens Division": ["polstn-mahila-kut@gujarat.gov.in","Bhuj"],
+    "Gandhidham A Div": ["polstn-gandhi-kut@gurat.gov.in","Gandhidham"],
+    "Gandhidham B Div": ["gandhidham-gdam-pstn@gmail.com","Gandhidham"],
+    "Mandvi": ["polstn-mandvi-kut@gujarat.gov.in","Manddvi"],
+    "Mandvi Marine": ["polstn-mandvi-marine-kut@gujarat.gov.in","Manddvi"],
+    "Mundra": ["polstn-mundra-kut@gujarat.gov.in","Mundra"],
+    "Mundra Marine": ["polstn-mundra-marine-kut@gujarat.gov.in","Mundra"],
+    "Nakhatrana": ["polstn-nakh-kut@gujarat.gov.in","Nakhatrana"],
+    "Rapar": ["polstn-rapar-kut@gujarat.gov.in","Rapar"],
+    }
+    for i in data:
+        try:
+            PoliceStation(qrId=randrange(000000,999999), name=i, taluka=Taluka.objects.get(name=data[i][1])).save()
+            p = PoliceStation.objects.get(name=i)
+            debug(i, 'Data Inserted')
+            User.objects.create_user(email=data[i][0], password='nisheet', view=1, view_id=p.id)
+            debug(data[i][0], 'Data Inserted')
+        except: pass
+    return JsonResponse({"status": "Inserted User Dataset into database"})
