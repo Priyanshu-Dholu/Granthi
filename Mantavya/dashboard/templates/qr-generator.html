@@ -5,6 +5,8 @@
 
 {% block body %}
 <!-- Form -->
+
+{% if district %}
 <div class="row">
   <div class="container mt-1 rounded border" style="background-color: #fff">
     <form>
@@ -30,7 +32,8 @@
           </select>
         </div>
         <div class="col d-grid align-self-center">
-          <button type="button" class="btn btn-outline-primary btn-lg mb-1" id="gen-qr-btn" onclick="generate()">Generate QR Code</button>
+          <button type="button" class="btn btn-outline-primary btn-lg mb-1" id="gen-qr-btn"
+            onclick="generate()">Generate QR Code</button>
         </div>
         <div class="col d-grid align-self-center">
           <button type="reset" class="btn btn-outline-danger btn-lg mb-1" id="reset-btn"
@@ -40,6 +43,7 @@
     </form>
   </div>
 </div>
+{% endif %}
 
 <!-- Print / Download Btns -->
 <div class="row mt-3 justify-content-center">
@@ -80,7 +84,8 @@
 
       <div class="qr-code-wrapper d-flex flex-column align-items-center">
         <div id="qrcode" class="mt-5"></div>
-        <p class="mt-5 text-sm-start"><span id="ename">Police Station Name</span>/<span id="gname">પોલીસ સ્ટેશનનું નામ</span></p>
+        <p class="mt-5 text-sm-start"><span id="ename">Police Station Name</span>/<span id="gname">પોલીસ સ્ટેશનનું
+            નામ</span></p>
 
         <div class="icon-step">
           <div class="row">
@@ -112,59 +117,58 @@
 
 {% block script %}
 
-<!-- Form handlers -->
+<!-- QRCode.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
+  integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA=="
+  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- PrinThis -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/printThis/1.15.0/printThis.min.js"
+  integrity="sha512-d5Jr3NflEZmFDdFHZtxeJtBzk0eB+kkRXWFQqEc1EKmolXjHm2IKCA7kTvXBNjIYzjXfD5XzIjaaErpkZHCkBg=="
+  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- JS PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"
+  integrity="sha512-1g3IT1FdbHZKcBVZzlk4a4m5zLRuBjMFMxub1FeIRvR+rhfqHFld9VFXXBYe66ldBWf+syHHxoZEbZyunH6Idg=="
+  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- Html To Canvas -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
+  integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA=="
+  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+{% if district %}
+
+<script src="{% static 'js/form-filter.js' %}"></script>
 <script>
-  function get_selected(id){
-    return $(id).find(':selected').val();
-  }
-
   var qrcode = new QRCode("qrcode", "");
-
-  $.get("/dashboard/get/district/all", function (data) {
-    for (id in data) {
-      $('#form-district').append(`<option value="${id}">${data[id]}</option>`);
-    }
-  });
-
-  function get_taluka(district_id) {
-    $('#form-taluka').html(`<option selected value="default" disabled>Select Taluka</option>`);
-
-    $.get("/dashboard/get/taluka/all", { 'district-id': district_id }, function (data) {
-      for (id in data) {
-        $('#form-taluka').append(`<option value="${id}">${data[id]}</option>`);
-      }
-    });
-  }
-
-  function get_policestation(taluka_id) {
-    $('#form-policestation').html(`<option selected value="default" disabled>Select Police Station</option>`);
-
-    $.get("/dashboard/get/policestation/all", { 'taluka-id': taluka_id }, function (data) {
-      for (id in data) {
-        $('#form-policestation').append(`<option value="${id}">${data[id]}</option>`);
-      }
-    });
-  }
-
   function generate() {
     if (get_selected('#form-policestation') !== 'default') {
-      $.getJSON("/dashboard/get/qrid", { 'psid': get_selected('#form-policestation')}, function (data) {
-        qrcode.makeCode(window.location.host+'/feedback/'+ data['qrid']);
+      $.getJSON("/dashboard/get/qrid", { 'psid': get_selected('#form-policestation') }, function (data) {
+        qrcode.makeCode(window.location.host + '/feedback/' + data['qrid']);
         $('#ename').text(data['ename']);
-        $('#gname').text(data['gname']); 
+        $('#gname').text(data['gname']);
       });
     }
   }
 </script>
 
+{% else %}
+<script>
+  $.getJSON("/dashboard/get/qrid", { 'psid': {{ psid }} }, function (data) {
+    qrcode.makeCode(window.location.host + '/feedback/' + data['qrid']);
+    $('#ename').text(data['ename']);
+    $('#gname').text(data['gname']);
+  });
+</script>
+{% endif %}
 
+<!-- Buttons -->
 <script>
   function printbtn() {
     $('#container-print').printThis({
       importCSS: true,
       printDelay: 333,
-      beforePrint: null, // function called before iframe is filled
-      afterPrint: null, // function called after iframe is filled
+      beforePrint: null,
+      afterPrint: null,
       base: window.location.href
     })
   }
@@ -173,7 +177,7 @@
       let base64image = canvas.toDataURL('image/png');
       let pdf = new jsPDF("p", 'px', [1600, 1131]);
       pdf.addImage(base64image, 'PNG', 0, 30, 1130, 1450);
-      pdf.save('horray.pdf');
+      pdf.save(`${$('#form-policestation').find(':selected').val()}`);
     });
   }
 </script>

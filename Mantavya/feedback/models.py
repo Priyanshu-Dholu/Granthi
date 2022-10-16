@@ -23,11 +23,25 @@ class District(models.Model):
 
     # return answer count for particular question of district.
     @classmethod
-    def answer_count(cls, id:int, que:str, date) -> dict:
-        result = Feedback.objects.filter(psId__taluka__district=id).filter(date__gte=get_date(date)).values_list(que).annotate(count=Count(que))
+    def answer_count(cls, id:int, que:str, sdate:str, edate:str) -> dict:
+        result = Feedback.objects.filter(psId__taluka__district=id).filter(date__gte=str2date(sdate)).filter(date__lte=str2date(edate)).values_list(que).annotate(count=Count(que))
         return {i:j for i,j in result}
 
-
+    @classmethod
+    def get_report(cls, id, sdate:str, edate:str)-> dict:
+        result = Feedback.objects.filter(date__gte=str2date(sdate)).filter(date__lte=str2date(edate)).filter(psId__taluka_district=id)
+        result = result.values_list('citizenId_id', 'name', 'date', 'q1_id', 'q2_id', 'q3_id', 'q4')
+        data = {}
+        for d in result:
+            u = {
+                'date': d[2],
+                'q1': d[3],
+                'q2': d[4],
+                'q3': d[5],
+                'q4': d[6]
+            }
+            data[str('*******'+Citizen.objects.get(id=d[0]).mobileNum[-3:])] = u
+        return data
 
 class Taluka(models.Model):
     id = models.AutoField(primary_key=True)
@@ -42,10 +56,25 @@ class Taluka(models.Model):
 
     # return answer count for particular question of taluka.
     @classmethod
-    def answer_count(cls, id:int, que:str, date) -> dict:
-        result = Feedback.objects.filter(psId__taluka=id).filter(date__gte=get_date(date)).values_list(que).annotate(count=Count(que))
+    def answer_count(cls, id:int, que:str, sdate:str, edate:str) -> dict:
+        result = Feedback.objects.filter(psId__taluka=id).filter(date__gte=str2date(sdate)).filter(date__lte=str2date(edate)).values_list(que).annotate(count=Count(que))
         return {i:j for i,j in result}
 
+    @classmethod
+    def get_report(cls, id, sdate:str, edate:str)-> dict:
+        result = Feedback.objects.filter(date__gte=str2date(sdate)).filter(date__lte=str2date(edate)).filter(psId__taluka=id)
+        result = result.values_list('citizenId_id', 'name', 'date', 'q1_id', 'q2_id', 'q3_id', 'q4')
+        data = {}
+        for d in result:
+            u = {
+                'date': d[2],
+                'q1': d[3],
+                'q2': d[4],
+                'q3': d[5],
+                'q4': d[6]
+            }
+            data[str('*******'+Citizen.objects.get(id=d[0]).mobileNum[-3:])] = u
+        return data
 
 class PoliceStation(models.Model):
     id = models.AutoField(primary_key=True)
@@ -62,10 +91,25 @@ class PoliceStation(models.Model):
 
     # return answer count for particular question of Police Station.
     @classmethod
-    def answer_count(cls, id:int, que:str, date) -> dict:
-        result = Feedback.objects.filter(psId=id).filter(date__gte=get_date(date)).values_list(que).annotate(count=Count(que))
+    def answer_count(cls, id:int, que:str, sdate:str, edate:str) -> dict:
+        result = Feedback.objects.filter(psId=id).filter(date__gte=str2date(sdate)).filter(date__lte=str2date(edate)).values_list(que).annotate(count=Count(que))
         return {i:j for i,j in result}
 
+    @classmethod
+    def get_report(cls, id, sdate:str, edate:str)-> dict:
+        result = Feedback.objects.filter(date__gte=str2date(sdate)).filter(date__lte=str2date(edate)).filter(psId_id=id)
+        result = result.values_list('citizenId_id', 'name', 'date', 'q1_id', 'q2_id', 'q3_id', 'q4')
+        data = {}
+        for d in result:
+            u = {
+                'date': d[2],
+                'q1': d[3],
+                'q2': d[4],
+                'q3': d[5],
+                'q4': d[6]
+            }
+            data[str('*******'+Citizen.objects.get(id=d[0]).mobileNum[-3:])] = u
+        return data
 
 class SubDivPoliceStation(models.Model):
     subDivision = models.ForeignKey(PoliceStation, on_delete=models.CASCADE, related_name="subDivision")
@@ -102,7 +146,6 @@ class Feedback(models.Model):
     # Ex: groupby_count('q1')
     # Dashboard overview questions report 
     @classmethod
-    def answer_count(cls, que:str, date) -> dict:
+    def answer_count(cls, que:str, date:str) -> dict:
         result = cls.objects.filter(date__gte=get_date(date)).values_list(que).annotate(count=Count(que))
-        return {i:j for i,j in result} 
-
+        return {i:j for i,j in result}

@@ -1,5 +1,4 @@
 import datetime as dt
-
 QUESTIONS = ['q1', 'q2', 'q3']
 
 def percentage(data:dict) -> dict:
@@ -30,3 +29,7 @@ def get_date(l:str):
         d = today - dt.timedelta(days=365)
     
     return d.date() 
+
+def str2date(date:str):
+    d = dt.datetime.strptime(date, '%d-%m-%Y')
+    return d

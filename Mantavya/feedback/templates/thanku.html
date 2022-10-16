@@ -1,7 +1,41 @@
 {% extends "base.html" %}
+{% load static %}
+{% block style %}
+<!-- Iconify -->
+<script src="https://code.iconify.design/iconify-icon/1.0.0/iconify-icon.min.js"></script>
+{% endblock style %}
 
 {% block title %}Submitted{% endblock title %}
 
 {% block body %}
-<h1 class="text-center">Mantavya Submitted Successfully!</h1>
+<div class="container rounded mt-2">
+    <div class="row mt-2">
+        <div class="col mt-2 d-flex justify-content-center">
+            <img src="{% static 'Gujarat_Police_Logo.png' %}" class="w-md-25" width="150px" alt="Gujarat_Police_Logo">
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col text-center">
+            <p class="fs-3 fw-semibold">Thanks For Submitting Your Mantavya</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col text-center">
+            <p class="fs-2 fw-semibold mb-1">Here's Link To Download Citizen First Gujarat Police App</p>
+            <img src="{% static 'CitizenFirstGujaratPolice.png'%}" alt="Citizen First Gujarat Police App Logo"
+                class="w-25"> <br>
+            <div class="btn-group mb-2 mt-3">
+                <a href="https://play.google.com/store/apps/details?id=com.tcs.digigov.mobility.dhs.citizen.gj&hl=en_IN&gl=US"
+                    class="btn btn-outline-success d-flex align-self-center" role="button" aria-disabled="true">
+                    <iconify-icon icon="akar-icons:android-fill" width="40" height="40"></iconify-icon>
+                </a>
+                <a href="https://apps.apple.com/in/app/citizen-first-gujarat-police/id1546587116"
+                    class="btn btn-outline-info d-flex align-self-center" role="button" aria-disabled="true">
+                    <iconify-icon icon="cib:app-store-ios" width="40" height="40"></iconify-icon>
+                </a>
+            </div>
+
+        </div>
+    </div>
 {% endblock body %}

@@ -9,7 +9,7 @@ from .models import Citizen, Feedback, AnswerList, PoliceStation
 
 translator = Translator(from_lang = "en",to_lang="gu-IN")
 
-_SESSION_EXPIRY = 800   # in seconds
+_SESSION_EXPIRY = 300   # in seconds
 
 def debug(n):
     print('+'*20,n,'+'*20)
@@ -30,10 +30,10 @@ def getFeedback(request):
         if otpVerified(request):
             
             cID = Citizen.objects.get(mobileNum=request.session['Mobile-Num'])
-            q1 = request.POST.get('1');
-            q2 = request.POST.get('2');
-            q3 = request.POST.get('3');
-            q4 = request.POST.get('4');
+            q1 = request.POST.get('1')
+            q2 = request.POST.get('2')
+            q3 = request.POST.get('3')
+            q4 = request.POST.get('4')
 
             Feedback(
                 citizenId=cID, 
@@ -64,7 +64,7 @@ def feedback(request, qrid):
         psname = PoliceStation.objects.get(qrId=qrid).name
         data = {
             'ps': psname,
-            "gu_ps" : translator.translate(psname), 
+            "gu_ps" : translator.translate(psname),
             'psid': qrid
         }
         
