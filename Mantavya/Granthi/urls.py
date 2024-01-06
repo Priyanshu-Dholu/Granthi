@@ -1,4 +1,4 @@
-"""Mantavya URL Configuration
+"""Granthi URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.0/topics/http/urls/
@@ -15,11 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 urlpatterns = [
     path('', include('feedback.urls')),
     # path('admin/', admin.site.urls),
     path('tools/', include('tools.urls')),
     path('dashboard/', include('dashboard.urls')),
     path('admin/', include('officer.urls')),
+    path('chatbot/', include('chatbot.urls')),
 ]
+
+urlpatterns += staticfiles_urlpatterns()

@@ -1,7 +1,6 @@
 from random import randrange
-from typing import ValuesView
 from django.shortcuts import render
-from django.http import Http404, JsonResponse
+from django.http import JsonResponse
 from feedback.models import *
 import datetime as dt
 from officer.models import User
@@ -158,7 +157,7 @@ def insert_users_data(request):
     }
     for i in data:
         debug(i, 'Data Inserted')
-        User.objects.create_user(email=data[i], password='nisheet', view=3, view_id=District.objects.get(name=i).id)
+        User.objects.create_user(email=data[i], password='12345678', view=3, view_id=District.objects.get(name=i).id)
 
     return JsonResponse({"status": "Inserted User Dataset into database"})
 
@@ -183,7 +182,7 @@ def insert_police_station_user_data(request):
             PoliceStation(qrId=randrange(000000,999999), name=i, taluka=Taluka.objects.get(name=data[i][1])).save()
             p = PoliceStation.objects.get(name=i)
             debug(i, 'Data Inserted')
-            User.objects.create_user(email=data[i][0], password='nisheet', view=1, view_id=p.id)
+            User.objects.create_user(email=data[i][0], password='12345678', view=1, view_id=p.id)
             debug(data[i][0], 'Data Inserted')
         except: pass
     return JsonResponse({"status": "Inserted User Dataset into database"})

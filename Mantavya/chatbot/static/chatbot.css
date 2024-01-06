@@ -1,0 +1,152 @@
+/* Chatbot container styles */
+#chatbot-container {
+  position: fixed;
+  bottom: 100px;
+  right: 20px;
+  width: 300px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  overflow-y: auto;
+  max-height: 400px;
+  display: none; /* hide the chatbot container by default */
+  z-index: 10;
+}
+
+#chatbot-icon {
+  position: fixed;
+  bottom: 25px;
+  right: 30px;
+  height: 4em;
+  width: 4em;
+  color: white;
+  border-radius: 50%;
+  padding: 3px;
+  cursor: pointer;
+}
+
+
+#bot-img{
+  height: 100px;
+  width: 100px;
+}
+
+
+#message-container {
+  overflow-y: auto;
+  max-height: 300px; /* adjust the max-height as needed */
+  margin-bottom: 30px;
+}
+
+#message-container button {
+  display: block;
+  margin: 10px auto;
+  padding: 10px 20px;
+  background-color: #616161;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#message-container button:hover {
+  background-color: #3e8e41;
+}
+
+
+/* Chat message styles */
+#chatbot-container .message {
+  padding: 10px;
+  margin: 5px;
+  border-radius: 5px;
+  max-width: calc(100% - 50px); /* add this line */
+}
+
+/* User message styles */
+#chatbot-container .message.user {
+  background-color: #f0f0f0;
+  color: #000;
+  text-align: right;
+  margin-left: auto; /* add this line */
+}
+
+/* Bot message styles */
+#chatbot-container .message.bot {
+  background-color: #4CAF50;
+  color: #fff;
+  text-align: left;
+  margin-right: auto; /* add this line */
+}
+
+/* Chatbot form styles */
+#chatbot-form {
+  position: fixed;
+  bottom: 0;
+  right: 20px;
+  display: flex;
+  flex-direction: column; /* make form elements stack vertically */
+  width: 300px;
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px 5px 0 0;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+  display: none; /* hide the chatbot form by default */
+  z-index: 10;
+}
+
+/* Chatbot form input styles */
+#chatbot-form input[type="text"] {
+  flex: 1;
+  border: none;
+  padding: 5px;
+  margin-right: 10px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  border-radius: 5px;
+}
+
+/* Chatbot form button styles */
+#chatbot-form button[type="submit"] {
+  border: none;
+  padding: 5px 10px;
+  background-color: #4CAF50;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Chatbot form button hover styles */
+#chatbot-form button[type="submit"]:hover {
+  background-color: #3e8e41;
+}
+
+
+/* add a new CSS rule to hide the complaint form initially */
+#complaint-form-container {
+  display: none;
+}
+
+#chatbot-container .chatbot-header button {
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#chatbot-container .chatbot-header button:hover {
+  background-color: #0062cc;
+} 
