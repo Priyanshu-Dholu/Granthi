@@ -28,11 +28,13 @@ class User(AbstractUser):
 
     def get_view(self):
         data = 0
-        match self.view:
-            case 3:
-                data = District.objects.get(id=self.view_id)
-            case 2:
-                data = Taluka.objects.get(id=self.view_id)
-            case 1:
-                data = PoliceStation.objects.get(id=self.view_id)
+
+        if self.view == 3:
+            data = District.objects.get(id=self.view_id)
+        elif self.view == 2:
+            data = Taluka.objects.get(id=self.view_id)
+        elif self.view == 1:
+            data = PoliceStation.objects.get(id=self.view_id)
+
         return data
+

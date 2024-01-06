@@ -3,8 +3,6 @@ from django.db import models
 from django.db.models import Count
 from dashboard.functions import *
 
- 
-
 class District(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.TextField(max_length=20, null=False)
@@ -135,6 +133,7 @@ class Feedback(models.Model):
     q3 = models.ForeignKey(AnswerList, on_delete=models.CASCADE, related_name="q3")
     q4 = models.TextField(max_length=300)
     psId = models.ForeignKey(PoliceStation, on_delete=models.CASCADE, related_name='feedback')
+    feedback_id = models.TextField(max_length=8,null=True)
     date = models.DateField(auto_now=True)
 
     # Return Total feedbacks

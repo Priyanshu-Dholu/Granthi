@@ -1,0 +1,69 @@
+{% extends "dashboard.html" %}
+{% load static %}
+{% block title %}Complaints{% endblock %}
+
+{% block style %}
+<!-- DatePicker UI -->
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+{% endblock style %}
+
+{% block body %}
+<div class="container bg-white rounded-3">
+    <h3 class="mt-2 pt-3">Complaint List</h1>
+        <div class="table-responsive mt-3">
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                    <tr class="text-center">
+                        <th>Date</th>
+                        <th>Name</th>
+                        <th>Phone</th>
+                        <th>Complaint</th>
+                        <th>Ticket ID</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for complaint in complaints %}
+                    <tr>
+                        <td class="text-center">{{ complaint.complaint_date }}</td>
+                        <td class="text-center">{{ complaint.name }}</td>
+                        <td class="text-center">{{ complaint.phone }}</td>
+                        <td>{{ complaint.complaint }}</td>
+                        <td class="text-center">{{ complaint.ticket_id }}</td>
+                        <td>{% if complaint.ticket_status %}Solved{% else %}Pending{% endif %}</td>
+                        <td>
+                            {% if not complaint.ticket_status %}
+                            <form action="{% url 'update_status' complaint.id %}" method="POST">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary">Mark as Solved</button>
+                            </form>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    <!-- Add the row for total complaints -->
+                    <tr>
+                        <td colspan="6" class="text-end fw-semibold">Total Solved Complaints:</td>
+                        <td class="bg-success text-white fw-semibold fs-5">{{ total_solved_complaints }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="6" class="text-end fw-semibold">Total Pending Complaints:</td>
+                        <td class="bg-danger text-white fw-semibold fs-5">{{ total_pending_complaints }}</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+</div>
+
+{% endblock body %}
+
+
+{% block script %}
+<script src="https://code.iconify.design/iconify-icon/1.0.0/iconify-icon.min.js"></script>
+{% endblock script %}

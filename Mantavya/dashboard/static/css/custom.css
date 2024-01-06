@@ -4,10 +4,34 @@
     border: none;
 }
 
+:root {
+  --background: #d3d7fc;
+  --primary: #252C6C;
+  --bs-border-color: var(--primary);
+  --light-primary: #323b92;
+}
+
+
+/* Password Validation */
+.wrong .fa-check
+{
+    display: none;
+}
+
+.good .fa-times
+{
+    display: none;
+}
+.valid-feedback,
+.invalid-feedback {
+}
 
 /* ---------------------------------------------------
     SIDEBAR STYLE
 ----------------------------------------------------- */
+.main-sidebar{
+    background-color: var(--light-primary);
+}
 
 .wrapper {
     display: flex;
@@ -20,8 +44,8 @@
     align-self: start;
     position: sticky;
     top: 0;
-    min-width: 225px;
-    max-width: 225px;
+    min-width: 260px;
+    max-width: 260px;
     overflow: auto;
 }
 
@@ -69,7 +93,7 @@ body {
 #list-style-ul {
     height: 87vh;
     font-size: 18px;
-    color: black;
+    color: var(-);
     font-weight: 500;
 }
 
@@ -87,20 +111,20 @@ body {
 .nav-pills .show>.nav-link {
     color: var(--bs-nav-pills-link-active-color);
     background-color: #ced0dd;
-    color: black;
+    color: white;
 }
 
 .nav-pills .nav-link:hover {
     color: var(--bs-nav-pills-link-active-color);
     background-color: #ced0dd;
-    color: black;
+    color: white;
 }
 
 .nav-pills .nav-link {
     background: 0 0;
     border: 0;
     border-radius: var(--bs-nav-pills-border-radius);
-    color: black;
+    color: white;
 }
 
 #gen-qr-btn {

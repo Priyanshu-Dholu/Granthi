@@ -8,15 +8,15 @@
 {% endblock style %}
 
 {% block body %}
-<div class="container" style="max-width: 960px !important;">
+<div class="container bg-white p-3 mt-3 mb-2" style="max-width: 960px !important;border-radius: 15px;">
 
   <img src="{% static 'Gujarat_Police_Logo.png' %}" alt="Gujarat Police Logo" class="w-35 mx-auto d-block img-fluid mt-4" style="max-width: 150px;">
 
   <h2 class="text-center mt-4">Thanks for visiting {{ ps }} Police Station</h2>
   <h5 class="text-center">{{ gu_ps }} પોલીસ સ્ટેશનની મુલાકાત લેવા બદલ આભાર</h5>
 
-  <p class="fs-4 p-2 mt-2 border rounded-1">{{name}}</p>
-  <p class="fs-4 p-2 mt-2 border rounded-1">{{mobile_num}}</p>
+  <p class="fs-4 p-2 mt-2 border" style="border-radius: 15px;font-weight: bolder;">{{name}}</p>
+  <p class="fs-4 p-2 mt-2 border" style="border-radius: 15px;font-weight: bolder;">{{mobile_num}}</p>
   <br>
   <form>
     {% csrf_token %}
@@ -160,6 +160,7 @@
     d="M18.7022469,29.7633426 L29.1611722,33.6861584 C28.8859085,33.8576358 28.5650147,33.9672494 28.2172657,33.993502 C27.9437428,34.0141511 27.6687736,33.9809301 27.4085205,33.8957918 L18.6506147,31.0307612 C18.2281197,30.8925477 17.7713439,30.8925477 17.3488489,31.0307612 L8.59094317,33.8957918 C7.98083887,34.0953792 7.34281791,33.9989813 6.83864817,33.6859784 L17.2977531,29.7633426 C17.7505234,29.5935537 18.2494766,29.5935537 18.7022469,29.7633426 Z">
   </path>
 </svg>
+
 {% endblock body %}
 
 {% block script %}

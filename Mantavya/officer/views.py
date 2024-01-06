@@ -1,9 +1,7 @@
-from email import message
 from django.shortcuts import render
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from officer.models import User
 from django.contrib import messages
 
 def debug(data, message=''):
@@ -24,7 +22,8 @@ def Login(request):
             return redirect('dashboard')
         else:
             debug('can\'t login')
-            return   
+            messages.error(request, 'Invalid email or password. Please try again.')
+            return render(request, 'admin-login.html')
     else:
         return render(request, 'admin-login.html')
 
