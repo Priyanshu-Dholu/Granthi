@@ -1,0 +1,380 @@
+{% extends "dashboard.html" %}
+{% load static %}
+{% block title %}Detailed{% endblock %}
+
+{% block style %}
+<!-- DatePicker UI -->
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+{% endblock style %}
+
+{% block body %}
+<div class="container mt-3">
+  {% if district %}
+  <div class="row">
+    <div class="container mt-1 rounded border" style="background-color: #fff">
+      <form>
+        <div class="row">
+          <div class="col-6 p-3">
+            <select id="form-district" class="form-select w-100 border-bottom border-dark border-0"
+              aria-label="Select District" onchange="get_taluka($('#form-district').find(':selected').val())">
+              <option selected value="default" disabled>Select District</option>
+            </select>
+          </div>
+          <div class="col-6 p-3">
+            <select id="form-taluka" class="form-select w-100 border-bottom border-dark border-0"
+              aria-label="Select Taluka" onchange="get_policestation($('#form-taluka').find(':selected').val())">
+              <option selected value="default" disabled>Select Taluka</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6 p-3">
+            <select id="form-policestation" class="form-select w-100 border-bottom border-dark border-0"
+              aria-label="Select Station">
+              <option selected value="default" disabled>Select Police Station</option>
+            </select>
+          </div>
+          <div class="col-3 p-3">
+            <div class="input-group date" id="datepicker">
+              <input type="text" class="form-control date-picker" name="daterange" id="date-picker" />
+              <span class="input-group-append">
+                <span class="input-group-text bg-light d-block date-picker">
+                  <iconify-icon icon="bi:calendar"></iconify-icon>
+                </span>
+              </span>
+            </div>
+          </div>
+
+          <div class="col d-grid align-self-center">
+            <button type="button" class="btn btn-outline-primary btn-lg mb-1" id="search-btn"
+              onclick="search()">Search</button>
+          </div>
+          <div class="col d-grid align-self-center">
+            <button type="reset" class="btn btn-outline-danger btn-lg mb-1" id="reset-btn"
+              onclick="form_reset()">Reset</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  {% else %}
+  <div class="row justify-content-end mb-2 mt-2">
+    <div class="col-6 align-self-center">
+      <p class="fs-3 m-0">{{ps_name}}</p>
+    </div>
+    <div class="col-6 align-self-end">
+      <form class="d-flex flex-row justify-content-end">
+        <label for="date" class="col-1 col-form-label">Date: </label>
+        <div class="col-5">
+          <div class="input-group date" id="datepicker">
+            <input type="text" class="form-control date-picker" id="data-picker" name="daterange" />
+            <span class="input-group-append">
+              <span class="input-group-text bg-light d-block date-picker" id='datepickericon'>
+                <iconify-icon icon="simple-line-icons:calender"></iconify-icon>
+              </span>
+            </span>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  {%endif%}
+  <!-- 1 Question report -->
+  <div class="row">
+    <div class="container rounded mt-2 mb-2" style="background-color: #fff;">
+      <div class="row">
+        <div class="col mt-3">
+          <p>Question - 1</p>
+        </div>
+      </div>
+
+      <div class="row" style="background-color: #e7e7ef;">
+        <div class="col mt-2">
+          <!-- Question -->
+          <p>How would you rate behaviour of the police officers?</p>
+        </div>
+      </div>
+
+      <div class="row p-3">
+        <div class="col">
+          <div class="d-flex justify-content-center">
+            <canvas id="q1d" width="300" height="300"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="row border-top mt-2">
+        <div class="col">
+          <table id="tq1" class="table table-borderless">
+            <thead>
+              <tr class="text-center">
+                <th scope="col">Answer Choices</th>
+                <th scope="col">Counts</th>
+                <th scope="col">Percentage</th>
+              </tr>
+            </thead>
+            <tbody class="text-center">
+              <tr>
+                <td>Through a person known to a police officer</td>
+                <td>0</td>
+                <td>0%</td>
+              </tr>
+              <tr>
+                <td>With a neighbour/ local leader</td>
+                <td>0</td>
+                <td>0%</td>
+              </tr>
+              <tr>
+                <td>On your own</td>
+                <td>0</td>
+                <td>0%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2 Question report -->
+  <div class="row">
+    <div class="container rounded mt-2 mb-2" style="background-color: #fff;">
+      <div class="row">
+        <div class="col mt-3">
+          <p>Question - 2</p>
+        </div>
+      </div>
+
+      <div class="row" style="background-color: #e7e7ef;">
+        <div class="col mt-2">
+          <!-- Question -->
+          <p>How would you rate behaviour of the police officers?</p>
+        </div>
+      </div>
+
+      <div class="row p-3">
+        <div class="col">
+          <div class="d-flex justify-content-center">
+            <canvas id="q2d" width="300" height="300"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="row border-top mt-2">
+        <div class="col">
+          <table id="tq2" class="table table-borderless">
+            <thead>
+              <tr class="text-center">
+                <th scope="col">Answer Choices</th>
+                <th scope="col">Counts</th>
+                <th scope="col">Percentage</th>
+              </tr>
+            </thead>
+            <tbody class="text-center">
+              <tr>
+                <td>More than 15 minutes</td>
+                <td>0</td>
+                <td>0%</td>
+              </tr>
+              <tr>
+                <td>15 minutes</td>
+                <td>0</td>
+                <td>0%</td>
+              </tr>
+              <tr>
+                <td>10 minutes</td>
+                <td>0</td>
+                <td>0%</td>
+              </tr>
+              <tr>
+                <td>5 minutes</td>
+                <td>0</td>
+                <td>0%</td>
+              </tr>
+              <tr>
+                <td>Immediately</td>
+                <td>0</td>
+                <td>0%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3 Question report -->
+  <div class="row">
+    <div class="container rounded mt-2 mb-2" style="background-color: #fff;">
+      <div class="row">
+        <div class="col mt-3">
+          <p>Question - 3</p>
+        </div>
+      </div>
+
+      <div class="row" style="background-color: #e7e7ef;">
+        <div class="col mt-2">
+          <!-- Question -->
+          <p>How would you rate behaviour of the police officers (पुलिस अधिकारियों के व्यव्हार को आप कैसे
+            आंकते हैं)</p>
+        </div>
+      </div>
+
+      <div class="row p-3">
+        <div class="col">
+          <div class="d-flex justify-content-center">
+            <canvas id="q3d" width="300" height="300"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="row border-top mt-2">
+        <div class="col">
+          <table id="tq3" class="table table-borderless">
+            <thead>
+              <tr class="text-center">
+                <th scope="col">Answer Choices</th>
+                <th scope="col">Counts</th>
+                <th scope="col">Percentage</th>
+              </tr>
+            </thead>
+            <tbody class="text-center">
+              <tr>
+                <td>Worst</td>
+                <td>0</td>
+                <td>0%</td>
+              </tr>
+              <tr>
+                <td>Bad</td>
+                <td>0</td>
+                <td>0%</td>
+              </tr>
+              <tr>
+                <td>Good</td>
+                <td>0</td>
+                <td>0%</td>
+              </tr>
+              <tr>
+                <td>V.Good</td>
+                <td>0</td>
+                <td>0%</td>
+              </tr>
+              <tr>
+                <td>Excellent</td>
+                <td>0</td>
+                <td>0%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row rounded" style="background-color: #fff;">
+    <div class="table-responsive mt-3">
+      <table class="table table-bordered table-hover table-striped">
+        <thead>
+          <tr class="text-center text-nowrap">
+            <th>Sr</th>
+            <th>Mobile No</th>
+            <th>Date</th>
+            <th>Question - 1</th>
+            <th>Question - 2</th>
+            <th>Question - 3</th>
+            <th>Question - 4</th>
+          </tr>
+        </thead>
+        <tbody id="report-data">
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</div>
+{% endblock body %}
+
+
+{% block script %}
+<script src="{% static 'js/detailed.js' %}"></script>
+<script src="{% static 'js/chart.js' %}"></script>
+<script src="{% static 'js/questions.js' %}"></script>
+<script src="{% static 'js/report.js' %}"></script>
+<script src="{% static 'js/form-filter.js' %}"></script>
+
+<script>
+  let question = new Question()
+  let report = new Report()
+</script>
+
+
+<script>
+  var sdate = get_today_date(), edate = get_today_date();
+  var sdate, edate;
+
+  // DatePicker Handler
+  $(function () {
+    $('input[name="daterange"]').daterangepicker({
+      ranges: {
+        'Today': [moment(), moment()],
+        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+        'This Month': [moment().startOf('month'), moment().endOf('month')],
+        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+      },
+      "alwaysShowCalendars": true,
+      locale: {
+        cancelLabel: 'Clear'
+      },
+    }, function (start, end, label) {
+      sdate = start.format('DD-MM-YYYY')
+      edate = end.format('DD-MM-YYYY')
+
+      {% if district == false %}
+        data = { id: {{ psid }}, 'start-date': sdate, 'end-date': edate };
+        
+        question.policestation(data);
+        report.policestation(data);
+      {% endif %}
+    }
+    );
+  });
+
+
+{% if district %}
+
+  function search() {
+    $('#report-data').html("");
+
+    data = { 'start-date': sdate, 'end-date': edate }
+
+    if (get_selected('#form-policestation') !== 'default') {
+      data['id'] = get_selected('#form-policestation');
+      question.policestation(data);
+      report.policestation(data);
+    }
+    else if (get_selected('#form-taluka') !== 'default') {
+      data['id'] = get_selected('#form-taluka');
+      question.taluka(data);
+      report.taluka(data);
+    }
+    else if (get_selected('#form-district') !== 'default') {
+      data['id'] = get_selected('#form-district');
+      question.district(data);
+      report.taluka(data);
+    }
+  };
+
+{% endif %}
+
+
+</script>
+<script src="https://code.iconify.design/iconify-icon/1.0.0/iconify-icon.min.js"></script>
+
+{% endblock script %}
