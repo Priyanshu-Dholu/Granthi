@@ -1,7 +1,7 @@
 # Granthi
 
 Granthi is a Django based Webapp for feedback management of Police Stations. <br>
-This is basically an enhanced version of '[Mantavya](https://github.com/Nisheet-Patel/Mantavya)' project which we created 
+This is basically an enhanced version of '[Mantavya](https://github.com/Nisheet-Patel/Mantavya)' project which we created as team
 during SSIP Hackation - 2022.
 
 ### How this differs from original?
@@ -15,44 +15,43 @@ during SSIP Hackation - 2022.
 ## *Preview*
 
 #### Phone
-<img
-  src="previews/1.gif"
-  alt="Feedback Process"
-  title="Feedback Process"
-  style="display: inline-block; margin: 0 auto; max-width: 250px">
-<img
-  src="previews/2.png"
-  alt="Feedback Process"
-  title="Feedback Process"
-  style="display: inline-block; margin: 0 auto; max-width: 250px">
-<img
-  src="previews/3.png"
-  alt="Feedback Process"
-  title="Feedback Process"
-  style="display: inline-block; margin: 0 auto; max-width: 250px">
-<img
-  src="previews/4.png"
-  alt="OTP Verification"
-  title="OTP Verification"
-  style="display: inline-block; margin: 0 auto; max-width: 250px">
-<img
-  src="previews/5.png"
-  alt="OTP Verification"
-  title="OTP Verification"
-  style="display: inline-block; margin: 0 auto; max-width: 250px">
-  <br>
+<!-- Feedback Process -->
+<table>
+  <tr>
+    <td align="center">
+      <img src="previews/1.gif" alt="Feedback Process" title="Feedback Process" style="max-width: 250px">
+    </td>
+    <td align="center">
+      <img src="previews/2.png" alt="Feedback Process" title="Feedback Process" style="max-width: 250px">
+    </td>
+    <td align="center">
+      <img src="previews/3.png" alt="Feedback Process" title="Feedback Process" style="max-width: 250px">
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="previews/4.png" alt="OTP Verification" title="OTP Verification" style="max-width: 250px">
+    </td>
+    <td align="center">
+      <img src="previews/5.png" alt="OTP Verification" title="OTP Verification" style="max-width: 250px">
+    </td>
+  </tr>
+</table>
 
 #### Admin Side
-<img
-  src="previews/4.gif"
-  alt="Detailed Analysis"
-  title="Detailed Analysis"
-  style="display: inline-block; margin: 0 auto; max-width: 400px">
-<img
-  src="previews/5.gif"
-  alt="Generate QR Code"
-  title="Generate QR Code"
-  style="display: inline-block; margin: 0 auto; max-width: 400px">
+
+<!-- Admin Side -->
+<table>
+  <tr>
+    <td align="center">
+      <img src="previews/4.gif" alt="Detailed Analysis" title="Detailed Analysis" style="max-width: 400px">
+    </td>
+    <td align="center">
+      <img src="previews/5.gif" alt="Generate QR Code" title="Generate QR Code" style="max-width: 400px">
+    </td>
+  </tr>
+</table>
+
 
 ## *Installation*
 
