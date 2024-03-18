@@ -23,6 +23,14 @@
 	{% endfor %}
 	{% endif %}
 
+	{% if otp != None  %}
+	<div class="alert alert-success fade show"
+		role="alert">
+		Your OTP is: {{ otp }}
+		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+	{% endif %}
+
 	<form action="" method="post" autocomplete="off">
 		{% csrf_token %}
 		<div id="otp" class="d-flex flex-row justify-content-center mt-4">

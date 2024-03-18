@@ -2,7 +2,7 @@
 
 Granthi is a Django based Webapp for feedback management of Police Stations. <br>
 This is basically an enhanced version of '[Mantavya](https://github.com/Nisheet-Patel/Mantavya)' project which we created as team
-during SSIP Hackation - 2022.
+during SSIP Hackathon - 2022.
 
 ### How this differs from original?
 
@@ -113,4 +113,5 @@ python manage.py collectstatic
 python manage.py runserver
 ```
 
+### ⚠️ Sample User Mail: sp-ban@gujarat.gov.in
 ### ⚠️ Default password for all user is: 12345678

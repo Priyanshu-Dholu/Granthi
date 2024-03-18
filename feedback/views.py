@@ -98,7 +98,8 @@ def generate_OTP(request):
         else:
             print('OTP In Terminal')
             print(f"{request.session['Mobile-Num']} :OTP: {n}")
-            return True
+            return n
+            # return True
     else:
         messages.error(request, 'Invalid Phone Number!')
         return False
@@ -176,10 +177,19 @@ def verify_otp(request):
     if 'Mobile-Num' not in request.session:
         return redirect('feedback', qrid)
 
-    data = {
-        'mobile_num': request.session['Mobile-Num'][-3:],
-        're_sec':'60'
-    }
+    # If using twilio then only send sms else show otp in ui
+    if _USE_TWILIO == True:
+        data = {
+            'mobile_num': request.session['Mobile-Num'][-3:],
+            're_sec':'60',
+            'otp': None
+        }
+    else:
+        data = {
+            'mobile_num': request.session['Mobile-Num'][-3:],
+            're_sec':'60',
+            'otp': request.session['OTP'] if 'OTP' in request.session else None,
+        }
     
     if request.method == 'GET':
         return render(request, 'verify-otp.html', data)
